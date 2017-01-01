@@ -7,6 +7,13 @@
 <title>Insert title here</title>
 </head>
 <body>
+	
+	
+	<br><br>
+	
+	<a href="springmvc/testRequestMapping">Test RequestMapping</a>
+
+	<br><br>
 	<a href="helloworld">Hello World</a>
 </body>
 </html>
