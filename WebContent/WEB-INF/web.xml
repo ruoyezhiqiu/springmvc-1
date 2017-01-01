@@ -4,6 +4,21 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	id="WebApp_ID" version="2.5">
 	
+	
+	<!-- 
+		配置：org.springframework.web.filter.HiddenHttpMethodFilter 作用：可以把POST请求 转换为：DELETE 请求，或者POST请求 
+	-->
+	<filter>
+		<filter-name>HiddenHttpMethodFilter</filter-name>		
+		<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>HiddenHttpMethodFilter</filter-name>
+		<!-- 此处表示过滤所有请求 -->
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
 	<!--配置 DispatcherServlet:
 		可以使用"ALT+/"直接调用DispatcherServlet标签  
 	-->
