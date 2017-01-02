@@ -1,15 +1,94 @@
 package com.wushengde.springmvc.handlers;
 
+import java.io.IOException;
+import java.io.Writer;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.wushengde.springmvc.entities.User;
 
 @RequestMapping("/springmvc")
 @Controller
 public class SpringMVCTest {
 	
 	private static final String SUCCESS="success";
+	
+	/**
+	 * 可以使用Servlet原生的API作为目标方法的参数：
+	 * 具体支持以下类型的参数： 
+	 * 		1.HttpServletRequest 
+	 *		2.HttpServletResponse 
+	 *		3.HttpSession 
+	 *		4.java.security.Principal 
+	 *		5.Locale 
+	 *		6.InputStream 
+	 *		7.OutputStream 
+	 *		8.Reader 
+	 *		9.Writer 
+	 * @throws IOException 
+	 */
+	@RequestMapping("/testServletAPI")
+	public void testServletAPI(HttpServletRequest request,HttpServletResponse response,Writer out) throws IOException{
+		System.out.println("TestServletAPI,"+request+","+response);
+		out.write("Test Servlet Source API");
+		//return SUCCESS;
+	}
+	
+	
+	/**
+	 * 	Spring MVC 会按请求参数名和 POJO 属性名进行自动匹配，自动为该对象填充属性值。支持级联属性。
+	 *	如：dept.deptId、dept.address.tel 等
+	 *	以下例子中：address.province、address.city属于级联属性
+	 * 
+	 */
+	@RequestMapping("/testPojo")
+	public String testPojo(User user){
+		System.out.println("testPojo: "+user);
+		return SUCCESS;
+	}
+	
+	
+	/**
+	 * @CookieValue:映射一个cookie值，属性配置同@RequestHeader，@RequestParam
+	 */
+	@RequestMapping("/testCookieValue")
+	public String testCookieValue(@CookieValue("JSESSIONID") String sessionId){
+		System.out.println("Test CookieValue:sessionId:" +sessionId);
+		return SUCCESS;
+	}
+	
+	
+	/**
+	 * @RequestHeader用法同@RequestParam一样，作用：映射请求头信息，不常用
+	 */
+	@RequestMapping("/testRequestHeader")
+	public String testRequestHeader(@RequestHeader(value="Accept-Language") String al){
+		System.out.println("Test RequestHeader,Accept-Language: "+al);
+		return SUCCESS;
+	}
+	
+	
+	/**
+	 * @RequestParam 注解：来映射请求参数。
+	 * 	value属性 值：为请求参数的参数名
+	 * 	required属性：该参数是否必须传入，默认为：true
+	 * 	defaultValue属性：请求参数的默认值
+	 */
+	@RequestMapping(value="/testRequestParam")
+	public String testRequestParam(@RequestParam(value="username") String un,
+			@RequestParam(value="age",required=false,defaultValue="null") Integer age){
+		System.out.println("Test RequestParam with params username : "+un+" age: "+age);
+		return SUCCESS;
+	}
 	
 	
 	/**

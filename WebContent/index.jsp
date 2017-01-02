@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="ISO-8859-1"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -7,6 +7,43 @@
 <title>Insert title here</title>
 </head>
 <body>
+	
+	<a href="springmvc/testServletAPI"> Test ServletAPI</a>
+	<br><br>
+	
+	<br><br>
+	<span>---------------------------------------------------------------------------</span>
+	<br><br>
+	
+	<form action="springmvc/testPojo" method="post">
+		username:<input type="text" name="username"/>
+		<br>
+		password:<input type="password" name="password"/>
+		<br>
+		email:<input type="text" name="email"/>
+		<br>
+		age:<input type="text" name="age"/>
+		<br>
+		province:<input type="text" name="address.province"/>
+		<br>
+		city:<input type="text" name="address.city"/>
+		<br><br>
+		<input type="submit" value="提交"/>
+	</form>
+	<br><br>
+	
+	<span>---------------------------------------------------------------------------</span>
+	<br><br>
+	
+	<br><br>
+	<a href="springmvc/testCookieValue">Test CookieValue</a>
+	<br><br>
+	
+	<a href="springmvc/testRequestHeader">Test RequestHeader</a>
+	<br><br>
+	
+	<a href="springmvc/testRequestParam?username=atguigu&age=11">Test RequestParam</a>
+	<br><br>
 	
 	<form action="springmvc/testRest/1" method="post">
 		<input type="hidden" name="_method" value="PUT"/>
@@ -31,9 +68,8 @@
 	<a href="springmvc/testRest/1">Test Rest Get</a>
 	<br><br>
 	
-	
-	
-	<span>------------------------------------------------------</span>
+	<span>---------------------------------------------------------------------------</span>
+	<br><br>
 	
 	<a href="springmvc/testPathVariable/1">Test PathVariable</a>
 	<br><br>
