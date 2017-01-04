@@ -1,6 +1,8 @@
 package com.wushengde.springmvc.entities;
 
 public class User {
+	
+	private int id;
 	private String username;
 	private String password;
 	
@@ -11,6 +13,14 @@ public class User {
 
 	public String getUsername() {
 		return username;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public void setUsername(String username) {
@@ -49,10 +59,35 @@ public class User {
 		this.address = address;
 	}
 
+
+
 	@Override
 	public String toString() {
-		return "User [username=" + username + ", password=" + password + ", email=" + email + ", age=" + age
-				+ ", address=" + address + "]";
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email + ", age="
+				+ age + "]";
+	}
+
+	public User() {
+		super();
+	}
+
+
+
+	public User(int id, String username, String password, String email, int age) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.age = age;
+	}
+
+	public User(String username, String password, String email, int age) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.age = age;
 	}
 	
 	

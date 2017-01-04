@@ -2,25 +2,129 @@ package com.wushengde.springmvc.handlers;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.wushengde.springmvc.entities.User;
 
+//@SessionAttributes注解：表示将目标方法中的模型属性数据添加到session域中，方便多个请求共享数据
+//@SessionAttributes中的属性：1.value：表示要放入session域中的键；2.types表示要放入session域中的值的类型
+//@SessionAttributes：表示将user键以及值为String类型的模型数据放到Session域中
+@SessionAttributes(value={"user"},types={String.class})
 @RequestMapping("/springmvc")
 @Controller
 public class SpringMVCTest {
 	
 	private static final String SUCCESS="success";
+	
+	//测试重定向：如果测试转发只需要将下面的redirect改为：forward
+	@RequestMapping("/testRedirect")
+	public String testRedirect(){
+		System.out.println("Text Redirect");
+		return "redirect:/index.jsp";
+	}
+	
+	
+	
+	//测试自定义视图：
+	@RequestMapping("/testView")
+	public String testView(){
+		System.out.println("Test View");
+		return "helloView";
+	}
+	
+	
+	@RequestMapping("/testViewAndViewResolver")
+	public String testViewAndViewResolver(){
+		System.out.println("testViewAndViewResolver");
+		return SUCCESS;
+	}
+	
+	
+	/**
+	 * 1.@ModelAttribute 注解：带有该注解的方法，都会在每一个目标方法执行之前被springmvc 调用！
+	 * 2.@ModelAttribute注解：也可以用来修饰目标方法POJO类型的入参，其value属性值有以下作用：
+	 * 		1).SpringMVC 会使用value属性值在implicitModel 中查找对应的对象，若存在则会直接传入到目标方法的入参中。
+	 * 		2).SpringMVC 会value为key，POJO 类型的对象为value,存入到request中。
+	 */
+	//在执行任意一个目标方法的时候都会先执行该方法！
+	@ModelAttribute
+	public void getUser(@RequestParam(value="id",required=false) Integer id,Map<String,Object> map){
+		System.out.println("@ModelAttribute method");
+		if(id!=null){
+			//模拟从数据库中获取对象
+			User user=new User(1, "Tom", "123456", "tom@atguigu.com", 12);
+			System.out.println("从数据库中获取一个对象"+user);
+			map.put("user", user);
+		}
+	}
+	
+	
+	@RequestMapping("/testModelAttribute")
+	public String testModelAttribute(User user){
+		System.out.println("修改："+user);
+		return SUCCESS;
+	}
+	
+	
+	/**
+	 * 开发过程要用到：@SessionAttributes 注解，属于常用注解
+	 * 
+	 * @ SessionAttributes注解放到目标方法所在类上，且该注解只能放到类上边，不能放到方法上边。
+	 * 	作用： 除了可以通过属性名指定需要放到会 话中的属性外(实际上使用其value属性)，
+	 * 	还可以通过模型属性的对象类型指定哪些模型属性需要放到会话中(实际上使用其tpyes属性)
+	 */
+	@RequestMapping("/testSessionAttributes")
+	public String testSessionAttributes(Map<String , Object> map){
+		User user=new User("Tom", "123456", "tom@atguigu.com", 12);
+		map.put("user", user);
+		map.put("school", "atguigu");
+		return SUCCESS;
+	}
+	
+	
+	/**
+	 *  目标方法可以添加Map 类型(也可以是：Model 类型跟ModelMap 类型)的参数
+	 *  Springmvc会把Map类型的数据放到request请求域中
+	 */
+	@RequestMapping("/testMap")
+	 public String testMap(Map<String, Object> map){
+		System.out.println(map.getClass().getName());
+		 map.put("names",Arrays.asList("Tom","Jerry","Mike"));
+		 return SUCCESS;
+	 }
+	
+	
+	/**
+	 * 	目标方法的返回值除了String类型的success，还可以是：ModelAndView 类型
+	 * 	其中可以包含：视图、模型信息	
+	 * 	Springmvc会把ModelAndView中的 model 中的数据放到request 的请求 域对象 中。
+	 */
+	@RequestMapping("/testModelAndView")
+	public ModelAndView testModelAndView(){
+		String viewName=SUCCESS;
+		//利用ModelAndView的构造函数配置视图信息
+		ModelAndView modelAndView=new ModelAndView(viewName);
+		//添加模型数据到ModelAndView 中
+		modelAndView.addObject("time", new Date());
+		return modelAndView;
+	}
+	
 	
 	/**
 	 * 可以使用Servlet原生的API作为目标方法的参数：

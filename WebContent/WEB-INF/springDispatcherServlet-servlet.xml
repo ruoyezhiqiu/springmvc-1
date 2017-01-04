@@ -10,11 +10,33 @@
 	<!-- 配置自动扫描的包 -->
 	<context:component-scan base-package="com.wushengde.springmvc"></context:component-scan>
 	
-	<!-- 配置视图解析器：如何把handler 方法返回值解析为实际的物理视图 -->
+	<!-- 配置视图解析器 InternalResourceViewResolver：如何把handler 方法返回值解析为实际的物理视图：即将逻辑视图转为物理视图 -->
 	
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/"></property>
 		<property name="suffix" value=".jsp"></property>
 	</bean>
+	
+	
+	<!-- 配置视图解析器  BeanNameViewResolver 作用:使用视图的名字来解析视图-->
+	<!-- 通过order 属性来定义视图解析器的优先级，order值越小优先级越高 -->
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<property name="order" value="100"></property>
+	</bean>
+	
+	
+	
+	<!-- 配置国际化资源文件 -->
+	
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="i18n"></property>
+	</bean>
+	
+	
+	<!-- 配置直接转发的页面：即可以不经过handler处理直接跳转  实际开发中 需与：mvc:annotation-driven连用-->
+	<mvc:view-controller path="/success" view-name="success"/>
+	<!-- 实际开发中都需要与：mvc:annotation-driven一起使用 -->
+	<mvc:annotation-driven></mvc:annotation-driven>
+	
 	
 </beans>

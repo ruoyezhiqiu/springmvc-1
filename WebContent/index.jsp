@@ -8,6 +8,46 @@
 </head>
 <body>
 	
+	<a href="springmvc/testRedirect">Test Redirect</a>
+	<br><br>
+	
+	<a href="springmvc/testView">Test View</a>
+	<br><br>
+	
+	
+	<a href="springmvc/testViewAndViewResolver">Test ViewAndViewResolver</a>
+	<br><br>
+	
+	<!-- 
+		模拟修改操作：
+			1.原始数据为：id=1,username=Tom,password=123456,email=tom@atguigu.com,age=12;
+			2.要求:密码不能被修改；
+			3.表单回显，模拟操作直接在表单填写对应的属性值
+			注：id通常是一个隐藏域
+	 -->
+	
+	<form action="springmvc/testModelAttribute" method="post">
+		<input type="hidden" name="id" value="1"/>
+		userName:<input type="text" name="username" value="Tom"/><br><br>
+		email:<input type="text" name="email" value="tom@atguigu.com"/><br><br>
+		age:<input type="text" name="age" value="12"/><br><br>
+		<input type="submit" value="Submit"/>
+	</form>
+	
+	<br><br>
+	<span>---------------------------------------------------------------------------</span>
+	<br><br>
+	
+	<br><br>
+	<a href="springmvc/testSessionAttributes"> Test SessionAttributes</a>
+	<br><br>
+	
+	<a href="springmvc/testMap"> Test Map</a>
+	<br><br>
+	
+	<a href="springmvc/testModelAndView"> Test ModelAndView</a>
+	<br><br>
+	
 	<a href="springmvc/testServletAPI"> Test ServletAPI</a>
 	<br><br>
 	
